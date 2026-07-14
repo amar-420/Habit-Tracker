@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Habit Tracker Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h1>🌱 Habit</h1>
+    <nav>
+      <button class="navBtn active" data-target="dashboard" id="dashboardBtn">📊 Dashboard</button>
+      <button class="navBtn" data-target="calendarSection" id="calendarBtn">📅 Calendar</button>
+      <button class="navBtn" data-target="analyticsSection" id="analyticsBtn">📈 Analytics</button>
+      <button class="navBtn" data-target="settingsSection" id="settingsBtn">⚙️ Settings</button>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <header>
+      <div>
+        <h2>Habit Tracker</h2>
+        <p id="todayDate">Loading...</p>
+      </div>
+      <button id="themeBtn">🌙</button>
+    </header>
+
+    <!-- DASHBOARD VIEW -->
+    <div class="view" id="dashboard">
+
+      <section class="monthBar">
+        <button id="prevWeek">◀ Prev</button>
+        <h2 id="currentWeekLabel">This Week</h2>
+        <button id="nextWeek">Next ▶</button>
+      </section>
+
+      <section class="addHabit">
+        <input type="text" id="habitInput" placeholder="Enter Habit (e.g. Drink Water)">
+        <button id="addHabitBtn">+ Add Habit</button>
+      </section>
+
+      <section class="cards">
+        <div class="card">
+          <h3>Total Habits</h3>
+          <p id="totalHabits">0</p>
+        </div>
+        <div class="card">
+          <h3>Completion</h3>
+          <p id="completion">0%</p>
+        </div>
+        <div class="card">
+          <h3>Current Streak</h3>
+          <p id="currentStreak">0</p>
+        </div>
+        <div class="card">
+          <h3>Longest Streak</h3>
+          <p id="longestStreak">0</p>
+        </div>
+      </section>
+
+      <section class="habitSection">
+        <div class="tableWrapper">
+          <table id="habitTable">
+            <thead id="habitHead"></thead>
+            <tbody id="habitBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- CALENDAR VIEW (real month calendar, color-coded by completion) -->
+    <div class="view hidden" id="calendarSection">
+      <section class="monthBar">
+        <button id="prevCalMonth">◀</button>
+        <h2 id="calMonthLabel">Month</h2>
+        <button id="nextCalMonth">▶</button>
+      </section>
+
+      <section class="habitSection">
+        <div class="calLegend">
+          <span><i class="legendDot none"></i> No progress</span>
+          <span><i class="legendDot partial"></i> Partial</span>
+          <span><i class="legendDot full"></i> All done</span>
+        </div>
+        <div class="calendarGrid" id="calendarGrid"></div>
+      </section>
+
+      <section class="habitSection hidden" id="dayDetailPanel">
+        <h3 id="dayDetailTitle"></h3>
+        <div id="dayDetailList"></div>
+      </section>
+    </div>
+
+    <!-- ANALYTICS VIEW: pick a habit, then see its detailed stats -->
+    <div class="view hidden" id="analyticsSection">
+
+      <div id="analyticsListView">
+        <section class="habitSection">
+          <h2>Habit Analytics</h2>
+          <p class="subtle">Tap a habit to see its detailed progress.</p>
+          <div class="habitCardsGrid" id="habitAnalyticsList"></div>
+        </section>
+      </div>
+
+      <div class="view hidden" id="analyticsDetailView">
+        <button id="backToAnalyticsList" class="backBtn">← Back to Habits</button>
+        <h2 class="detailHabitName" id="analyticsHabitName"></h2>
+
+        <section class="cards">
+          <div class="card">
+            <h3>Completion (This Week)</h3>
+            <p id="habitCompletion">0%</p>
+          </div>
+          <div class="card">
+            <h3>Current Streak</h3>
+            <p id="habitCurrentStreak">0</p>
+          </div>
+          <div class="card">
+            <h3>Longest Streak</h3>
+            <p id="habitLongestStreak">0</p>
+          </div>
+        </section>
+
+        <section class="analytics">
+          <h2>Weekly Progress</h2>
+          <div class="progress">
+            <div id="habitProgressBar"></div>
+          </div>
+          <p id="habitProgressText">0%</p>
+        </section>
+
+        <section class="charts">
+          <div class="chartBox">
+            <h3>Completed vs Remaining</h3>
+            <div class="chartCanvasWrap"><canvas id="habitWeeklyChart"></canvas></div>
+          </div>
+          <div class="chartBox heatmapBox">
+            <h3>Yearly Heatmap</h3>
+            <div id="habitHeatmap"></div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+
+    <!-- SETTINGS VIEW -->
+    <div class="view hidden" id="settingsSection">
+      <section class="settingsPanel">
+        <h2>Settings & Backup</h2>
+        <p>Export your habits and progress as a JSON backup, or restore from a previous backup.</p>
+        <div class="settingsActions">
+          <button id="exportBtn">⬇️ Export Backup (JSON)</button>
+          <button id="importBtn">⬆️ Restore Backup</button>
+          <input type="file" id="importFile" accept="application/json" hidden>
+          <button id="exportCsvBtn">📄 Export CSV</button>
+          <button id="clearAllBtn" class="danger">🗑️ Clear All Data</button>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- JS -->
+  <script src="js/storage.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/habits.js"></script>
+  <script src="js/streak.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
