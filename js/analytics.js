@@ -6,24 +6,21 @@
 // ==========================================
 
 function updateAnalytics() {
-  const week = getWeekDates();
+  const today = new Date();
+  const todayKey = dateKey(today);
 
   let totalCompleted = 0;
   let totalBoxes = 0;
 
   habits.forEach(habit => {
     const subTasks = getEffectiveSubTasks(habit);
-    week.forEach(date => {
-      if (isFutureDate(date)) return; // don't count boxes that can't be done yet
-      const key = dateKey(date);
-      if (subTasks) {
-        totalBoxes += subTasks.length;
-        totalCompleted += getSubtaskData(habit.id, key, subTasks.length).filter(Boolean).length;
-      } else {
-        totalBoxes++;
-        if (getHabitStatus(habit.id, key)) totalCompleted++;
-      }
-    });
+    if (subTasks) {
+      totalBoxes += subTasks.length;
+      totalCompleted += getSubtaskData(habit.id, todayKey, subTasks.length).filter(Boolean).length;
+    } else {
+      totalBoxes++;
+      if (getHabitStatus(habit.id, todayKey)) totalCompleted++;
+    }
   });
 
   document.getElementById("totalHabits").innerText = habits.length;
