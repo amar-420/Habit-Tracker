@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Header date
   document.getElementById("todayDate").innerText = getTodayLabel();
 
+  // Footer year
+  const footerYear = document.getElementById("footerYear");
+  if (footerYear) footerYear.innerText = new Date().getFullYear();
+
   // Theme
   initTheme();
   document.getElementById("themeBtn").addEventListener("click", toggleTheme);
