@@ -236,8 +236,8 @@ tbody td.habitName{text-align:left;font-weight:500;white-space:nowrap;}
   box-shadow:var(--shadow);
 }
 .chartBox h3{font-size:.9rem;color:var(--text-soft);margin-bottom:12px;}
-.chartCanvasWrap{position:relative;height:220px;width:100%;}
-.chartCanvasWrap canvas{width:100%!important;height:100%!important;}
+.chartCanvasWrap{position:relative;height:220px;width:100%;overflow:hidden;contain:strict;}
+.chartCanvasWrap canvas{width:100%!important;height:100%!important;position:absolute;top:0;left:0;}
 
 .heatmapBox #heatmap{
   display:grid;
@@ -358,6 +358,13 @@ tbody td.habitName{text-align:left;font-weight:500;white-space:nowrap;}
   font-size:.9rem;
 }
 .detailHabitName{margin-bottom:16px;}
+
+.appFooter{
+  text-align:center;
+  padding:18px 0 6px;
+  color:var(--text-soft);
+  font-size:.8rem;
+}
 
 @media(max-width:900px){
   body{flex-direction:column;}
