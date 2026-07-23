@@ -495,7 +495,11 @@ tbody td.habitName{text-align:left;font-weight:500;white-space:nowrap;}
 @media(max-width:900px){
   body{flex-direction:column;height:auto;min-height:100vh;overflow:visible;}
   .sidebar{width:100%;height:auto;position:relative;flex-direction:row;align-items:center;overflow-x:auto;}
-  .sidebar nav{flex-direction:row;align-items:center;}
+  .sidebarBrand{flex-direction:row;margin-bottom:0;gap:8px;flex-shrink:0;}
+  .sidebarLogo{width:36px;height:36px;}
+  .sidebar h1{font-size:1rem;white-space:nowrap;}
+  .sidebar nav{flex-direction:row;align-items:center;gap:6px;}
+  .navBtn{align-self:center;flex-shrink:0;white-space:nowrap;padding:8px 10px;font-size:.85rem;}
   .main{height:auto;overflow-y:visible;}
   .cards{grid-template-columns:repeat(2,1fr);}
   .charts{grid-template-columns:1fr;}
