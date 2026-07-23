@@ -26,6 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Back button (Analytics detail -> list)
   document.getElementById("backToAnalyticsList").addEventListener("click", renderAnalyticsList);
 
+  // Edit habit modal
+  document.getElementById("saveHabitEditBtn").addEventListener("click", saveHabitEdit);
+  document.getElementById("cancelHabitEditBtn").addEventListener("click", closeEditHabitModal);
+  document.getElementById("editHabitModal").addEventListener("click", (e) => {
+    if (e.target.id === "editHabitModal") closeEditHabitModal();
+  });
+
+
   // Add habit
   const habitInput = document.getElementById("habitInput");
   document.getElementById("addHabitBtn").addEventListener("click", () => {
