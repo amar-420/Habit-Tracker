@@ -21,6 +21,12 @@ function getEffectiveSubTasks(habit) {
   return detectSubTasks(habit.name);
 }
 
+// A custom icon always wins; otherwise fall back to a sensible default by type
+function getEffectiveIcon(habit) {
+  if (habit.icon) return habit.icon;
+  return getEffectiveSubTasks(habit) ? "🕌" : "✅";
+}
+
 function addHabit(name) {
   const trimmed = name.trim();
   if (!trimmed) return;
@@ -61,7 +67,7 @@ function buildTable(headEl, bodyEl) {
   let bodyHtml = "";
   habits.forEach(habit => {
     const subTasks = getEffectiveSubTasks(habit);
-    bodyHtml += `<tr data-habit="${habit.id}"><td class="habitName">${escapeHtml(habit.name)}</td>`;
+    bodyHtml += `<tr data-habit="${habit.id}"><td class="habitName">${getEffectiveIcon(habit)} ${escapeHtml(habit.name)}</td>`;
     week.forEach(date => {
       const key = dateKey(date);
       const future = isFutureDate(date);
@@ -88,7 +94,7 @@ function buildTable(headEl, bodyEl) {
         bodyHtml += `<td class="${classes}" data-habit="${habit.id}" data-date="${key}" data-future="${future}">${icon}</td>`;
       }
     });
-    bodyHtml += `<td><button class="deleteHabitBtn" data-habit="${habit.id}">🗑️</button></td></tr>`;
+    bodyHtml += `<td><button class="editHabitBtn" data-habit="${habit.id}">✏️</button><button class="deleteHabitBtn" data-habit="${habit.id}">🗑️</button></td></tr>`;
   });
 
   if (habits.length === 0) {
@@ -103,6 +109,8 @@ function buildTable(headEl, bodyEl) {
       if (cell.dataset.future === "true") return; // can't check future days
       toggleHabitStatus(cell.dataset.habit, cell.dataset.date);
       renderHabits();
+      checkMilestone(cell.dataset.habit);
+      checkDayComplete(cell.dataset.date);
     });
   });
 
@@ -117,6 +125,16 @@ function buildTable(headEl, bodyEl) {
         parseInt(tick.dataset.subcount, 10)
       );
       renderHabits();
+      checkMilestone(tick.dataset.habit);
+      checkDayComplete(tick.dataset.date);
+    });
+  });
+
+  // Bind edit buttons
+  bodyEl.querySelectorAll(".editHabitBtn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openEditHabitModal(btn.dataset.habit);
     });
   });
 
