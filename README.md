@@ -1,4 +1,4 @@
-# Habit Tracker 📅✅
+# HabiNest📅✅
 
 A simple and interactive **Habit Tracker Web Application** designed to help users build consistency, monitor daily habits, and improve productivity. The application provides an organized way to manage habits, track completion status, and view progress over time.
 
