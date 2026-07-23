@@ -196,15 +196,16 @@ function showDayDetail(key) {
 
   listEl.innerHTML = habits.map(habit => {
     const subTasks = getEffectiveSubTasks(habit);
+    const icon = getEffectiveIcon(habit);
     if (subTasks) {
       const arr = getSubtaskData(habit.id, key, subTasks.length);
       const ticks = subTasks.map((label, i) =>
         `<span class="subtick ${arr[i] ? "done" : ""}" title="${label}" data-habit="${habit.id}" data-date="${key}" data-sub="${i}" data-subcount="${subTasks.length}"></span>`
       ).join("");
-      return `<div class="dayDetailRow"><span class="dayDetailName">${escapeHtml(habit.name)}</span><div class="subtickWrapInner">${ticks}</div></div>`;
+      return `<div class="dayDetailRow"><span class="dayDetailName">${icon} ${escapeHtml(habit.name)}</span><div class="subtickWrapInner">${ticks}</div></div>`;
     }
     const done = getHabitStatus(habit.id, key);
-    return `<div class="dayDetailRow"><span class="dayDetailName">${escapeHtml(habit.name)}</span>
+    return `<div class="dayDetailRow"><span class="dayDetailName">${icon} ${escapeHtml(habit.name)}</span>
       <span class="checkCell dayCheck ${done ? "done" : ""}" data-habit="${habit.id}" data-date="${key}">${done ? "✅" : "⬜"}</span></div>`;
   }).join("");
 
@@ -214,6 +215,8 @@ function showDayDetail(key) {
       renderCalendarView();
       showDayDetail(key);
       renderHabits();
+      checkMilestone(tick.dataset.habit);
+      checkDayComplete(key);
     });
   });
 
@@ -223,6 +226,8 @@ function showDayDetail(key) {
       renderCalendarView();
       showDayDetail(key);
       renderHabits();
+      checkMilestone(cell.dataset.habit);
+      checkDayComplete(key);
     });
   });
 }
