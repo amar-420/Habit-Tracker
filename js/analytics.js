@@ -49,8 +49,7 @@ function renderAnalyticsList() {
   }
 
   container.innerHTML = habits.map(habit => {
-    const subTasks = getEffectiveSubTasks(habit);
-    const icon = subTasks ? "🕌" : "✅";
+    const icon = getEffectiveIcon(habit);
     const streak = calcHabitCurrentStreak(habit);
     return `
       <div class="habitAnalyticsCard" data-habit="${habit.id}">
@@ -77,7 +76,7 @@ function renderAnalyticsDetail(habitId) {
 
   document.getElementById("analyticsListView").classList.add("hidden");
   document.getElementById("analyticsDetailView").classList.remove("hidden");
-  document.getElementById("analyticsHabitName").innerText = habit.name;
+  document.getElementById("analyticsHabitName").innerText = `${getEffectiveIcon(habit)} ${habit.name}`;
 
   const subTasks = getEffectiveSubTasks(habit);
   const week = getWeekDates();
@@ -101,8 +100,19 @@ function renderAnalyticsDetail(habitId) {
   document.getElementById("habitProgressBar").style.width = percent + "%";
   document.getElementById("habitProgressText").innerText = percent + "% Completed";
   document.getElementById("habitCurrentStreak").innerText = calcHabitCurrentStreak(habit);
-  document.getElementById("habitLongestStreak").innerText = calcHabitLongestStreak(habit);
+  const longestStreak = calcHabitLongestStreak(habit);
+  document.getElementById("habitLongestStreak").innerText = longestStreak;
+  renderBadges(longestStreak);
 
   drawHabitChart(habit, week);
   drawHabitHeatmap(habit);
+}
+
+function renderBadges(longestStreak) {
+  const el = document.getElementById("habitBadges");
+  if (!el) return;
+  el.innerHTML = MILESTONES.map(m => {
+    const earned = longestStreak >= m;
+    return `<span class="badge ${earned ? "earned" : "locked"}">${MILESTONE_BADGES[m]}</span>`;
+  }).join("");
 }
