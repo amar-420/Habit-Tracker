@@ -52,7 +52,7 @@ body{
   height:100vh;
 }
 .sidebarBrand{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;margin-bottom:10px;}
-.sidebar h1{font-size:1 rem;color:var(--text);}
+.sidebar h1{font-size:1.2rem;color:var(--text);}
 .sidebarLogo{width:100px;height:auto;}
 .sidebar nav{display:flex;flex-direction:column;gap:10px;}
 .navBtn{
@@ -494,8 +494,8 @@ tbody td.habitName{text-align:left;font-weight:500;white-space:nowrap;}
 
 @media(max-width:900px){
   body{flex-direction:column;height:auto;min-height:100vh;overflow:visible;}
-  .sidebar{width:100%;height:auto;position:relative;flex-direction:row;overflow-x:auto;}
-  .sidebar nav{flex-direction:row;}
+  .sidebar{width:100%;height:auto;position:relative;flex-direction:row;align-items:center;overflow-x:auto;}
+  .sidebar nav{flex-direction:row;align-items:center;}
   .main{height:auto;overflow-y:visible;}
   .cards{grid-template-columns:repeat(2,1fr);}
   .charts{grid-template-columns:1fr;}
