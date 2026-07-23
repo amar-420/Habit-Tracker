@@ -80,6 +80,35 @@ function deleteHabitData(habitId) {
   saveCompletions(completions);
 }
 
+// Update a habit's name / icon / type without touching its completion history
+function editHabit(habitId, updates) {
+  const habits = getHabits();
+  const idx = habits.findIndex(h => h.id === habitId);
+  if (idx === -1) return;
+  habits[idx] = { ...habits[idx], ...updates };
+  saveHabits(habits);
+}
+
+// ---------- Streak milestone celebration tracking ----------
+const CELEBRATED_KEY = "habitTrackerPro.celebrated";
+
+function getCelebrated() {
+  const data = localStorage.getItem(CELEBRATED_KEY);
+  return data ? JSON.parse(data) : {};
+}
+
+function hasCelebrated(habitId, milestone) {
+  const c = getCelebrated();
+  return !!(c[habitId] && c[habitId].includes(milestone));
+}
+
+function markCelebrated(habitId, milestone) {
+  const c = getCelebrated();
+  if (!c[habitId]) c[habitId] = [];
+  if (!c[habitId].includes(milestone)) c[habitId].push(milestone);
+  localStorage.setItem(CELEBRATED_KEY, JSON.stringify(c));
+}
+
 function clearAllData() {
   localStorage.removeItem(STORAGE_KEY);
   localStorage.removeItem(COMPLETIONS_KEY);
